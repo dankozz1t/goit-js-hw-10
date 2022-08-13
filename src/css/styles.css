@@ -14,21 +14,26 @@ body {
 
 #search-box {
   font: inherit;
+  font-size: 30px;
+
   padding: 8px;
   max-width: 320px;
   margin-bottom: 16px;
-  border-color: black;
-  border-radius: 7px;
+
   outline: none;
+  border: none;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  background-color: white;
 }
 
-#search-box:focus {
-  border-color: blue;
-}
 .country-list {
-  list-style: none;
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 
 .country-list__item {
@@ -38,18 +43,19 @@ body {
 }
 
 .country-list__img {
-  height: 30px;
-  width: 35px;
+  height: 40px;
+  width: 45px;
 }
 
 .country-list__name {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 600;
 }
 
-/* .country-info__capital {
-  font-weight: 500;
-} */
+.country-info {
+  font-size: 20px;
+}
+
 .weight {
   font-weight: 700;
 }
