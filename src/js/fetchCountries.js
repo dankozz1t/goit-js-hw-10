@@ -1,6 +1,14 @@
+const BASE_API = 'https://restcountries.com/v3.1/';
+const SEARCH_BY_NAME = `name/`;
+const FIELDS = `?fields=name,capital,population,flags,languages`;
+
 export default function fetchCountries(name) {
-  const base = `https://restcountries.com/v3.1/name/${name}`;
-  // const fields = `?fields=name.official,capital,population,flags.svg,languages`;
-  const fields = `?fields=name,capital,population,flags,languages`;
-  return fetch(base + fields).then(response => response.json());
+  return fetch(`${BASE_API}${SEARCH_BY_NAME}${name}${FIELDS}`).then(
+    response => {
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+      return response.json();
+    }
+  );
 }

@@ -21,10 +21,14 @@ refs.inputEl.addEventListener(
   _debounce(onSearchCountryInput, DEBOUNCE_DELAY)
 );
 
+const clearMarkup = element => (element.innerHTML = '');
+const changeBorderColor = color => (refs.inputEl.style.backgroundColor = color);
+
 function onSearchCountryInput(event) {
-  refs.countryListEl.innerHTML = '';
-  refs.countryInfoEl.innerHTML = '';
-  refs.inputEl.style.borderColor = 'black';
+  clearMarkup(refs.countryListEl);
+  clearMarkup(refs.countryInfoEl);
+
+  changeBorderColor('white');
 
   if (!event.target.value.trim()) {
     return;
@@ -32,37 +36,51 @@ function onSearchCountryInput(event) {
 
   fetchCountries(event.target.value.trim())
     .then(countries => {
+      if (countries.length > 10) {
+        Notify.info(
+          '⚠️Too many matches found. Please enter a more specific name.'
+        );
+        changeBorderColor('lightblue');
+        return;
+      }
       renderMarkup(countries);
     })
-    .catch(console.log);
+    .catch(() => {
+      Notify.failure('❌Oops, there is no country with that name');
+      changeBorderColor('lightcoral');
+    });
 }
 
 function renderMarkup(countries) {
-  refs.inputEl.style.borderColor = 'blue';
-  if (!countries.length) {
-    Notify.failure('Oops, there is no country with that name');
-    refs.inputEl.style.borderColor = 'red';
-    return;
-  } else if (countries.length > 10) {
-    Notify.info('Too many matches found. Please enter a more specific name.');
-    refs.inputEl.style.borderColor = 'cyan';
-    return;
+  if (countries[0].name.common === 'Russia') {
+    fuckRussia(...countries);
   }
+
+  changeBorderColor('khaki');
 
   let markupInfo = '';
   let markupList = '';
 
   if (countries.length >= 2) {
-    for (let i = 0; i < countries.length; i++) {
-      markupList += templateCountryList(countries[i]);
-    }
+    markupList = countries.reduce(
+      (previousValue, currentValue) =>
+        (previousValue += templateCountryList(currentValue)),
+      ''
+    );
   } else {
     markupList = templateCountryList(...countries);
     markupInfo = templateCountryInfo(...countries);
-    refs.inputEl.style.borderColor = 'chartreuse';
+    changeBorderColor('lightgreen');
 
     refs.countryInfoEl.insertAdjacentHTML('afterbegin', markupInfo);
   }
 
   refs.countryListEl.insertAdjacentHTML('afterbegin', markupList);
+}
+
+function fuckRussia(country) {
+  country.name.common = 'New Ukraine';
+  country.flags.svg = 'https://flagcdn.com/ua.svg';
+  delete country.languages.rus;
+  country.languages.ukr = 'Ukrainian';
 }
