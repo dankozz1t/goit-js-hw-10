@@ -52,10 +52,6 @@ function onSearchCountryInput(event) {
 }
 
 function renderMarkup(countries) {
-  if (countries[0].name.common === 'Russia') {
-    fuckRussia(...countries);
-  }
-
   changeBorderColor('khaki');
 
   let markupInfo = '';
@@ -68,6 +64,10 @@ function renderMarkup(countries) {
       ''
     );
   } else {
+    if (countries[0].name.common === 'Russia') {
+      fuckRussia(...countries);
+    }
+
     markupList = templateCountryList(...countries);
     markupInfo = templateCountryInfo(...countries);
     changeBorderColor('lightgreen');
