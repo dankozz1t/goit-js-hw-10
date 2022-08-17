@@ -1,12 +1,19 @@
 <p class='country-info__capital'>
-  <span class="weight">Capital:</span> {{capital}}
-  </p>
-<p class='ci__population'>
-  <span class="weight">Population:</span> {{population}}
-  </p>
-<p class='ci__languages-text'>
-  <span class="weight">Languages:</span>
-  {{#each languages}}
-    <span class='ci__language'> {{this}},</span>
-  {{/each}}
+  <span class='weight'>Capital:</span>
+  {{capital}}
 </p>
+<p class='ci__population'>
+  <span class='weight'>Population:</span>
+  {{population}}
+</p>
+<p class='ci__languages-text'>
+  <span class='weight'>Languages:</span>
+  {{#each languages}}
+
+    {{#if @last}}
+      <span class='ci__language'> {{this}}</span>
+    {{else}}
+      <span class='ci__language'> {{this}},</span>
+    {{/if}}
+  {{/each}}
+</p> 
